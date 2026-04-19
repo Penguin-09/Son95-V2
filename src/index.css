@@ -40,6 +40,7 @@ body {
 	background-color: var(--window-background);
 }
 
+.window-border-reverse,
 .window-button:active {
 	border-left: 3px solid var(--window-border-dark);
 	border-top: 3px solid var(--window-border-dark);
