@@ -15,14 +15,13 @@ function App() {
 	/* Update the time every second */
 	useEffect(() => {
 		const id = window.setInterval(() => {
-			setCurrentHour(
-				new Date().getHours() >= 12
-					? new Date().getHours() - 12
-					: new Date().getHours()
-			)
-			setCurrentMinute(new Date().getMinutes())
-			setCurrentPeriod(new Date().getHours() >= 12 ? 'PM' : 'AM')
-		}, 1000)
+			const now = new Date()
+			const hours = now.getHours()
+
+			setCurrentHour(hours >= 12 ? hours - 12 : hours)
+			setCurrentMinute(now.getMinutes())
+			setCurrentPeriod(hours >= 12 ? 'PM' : 'AM')
+		}, 3000)
 		return () => window.clearInterval(id)
 	}, [])
 
@@ -36,7 +35,8 @@ function App() {
 			<div className="window-border-top absolute right-0 bottom-0 left-0 flex items-center justify-end bg-[var(--window-background)] p-1">
 				{/* Time */}
 				<div className="window-border-reverse w-fit px-2">
-					{currentHour}:{currentMinute} {currentPeriod}
+					{currentHour}:{currentMinute.toString().padStart(2, '0')}{' '}
+					{currentPeriod}
 				</div>
 			</div>
 		</div>
