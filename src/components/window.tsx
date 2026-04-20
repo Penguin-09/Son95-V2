@@ -85,7 +85,7 @@ export function Window({
 								aria-label="Maximize window"
 								type="button"
 								className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
-								onClick={() => handleMaximizeToggle()}
+								onClick={handleMaximizeToggle}
 							>
 								<img src="/icons/window-maximize.svg" alt="Maximize window" />
 							</button>
