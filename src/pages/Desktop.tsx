@@ -26,13 +26,16 @@ function App() {
 	}, [])
 
 	return (
-		<div className="h-screen w-screen p-3">
-			<Window title="Window">
-				<div>test</div>
-			</Window>
+		<div className="flex h-screen w-screen flex-col overflow-hidden bg-[var(--desktop-background)]">
+			{/* Desktop */}
+			<main className="relative min-h-0 flex-1 overflow-hidden p-3">
+				<Window title="Window">
+					<div>Try dragging, resizing or maximizing this window.</div>
+				</Window>
+			</main>
 
 			{/* Taskbar */}
-			<div className="window-border-top absolute right-0 bottom-0 left-0 flex items-center justify-end bg-[var(--window-background)] p-1">
+			<div className="window-border-top flex shrink-0 items-center justify-end bg-[var(--window-background)] p-1">
 				{/* Time */}
 				<div className="window-border-reverse w-fit px-2">
 					{currentHour}:{currentMinute.toString().padStart(2, '0')}{' '}
