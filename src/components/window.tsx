@@ -1,32 +1,80 @@
-import { useRef, type ReactNode } from 'react'
-import Draggable from 'react-draggable'
+import type { ReactNode } from 'react'
+import { useRef } from 'react'
+import { Rnd } from 'react-rnd'
 
 type WindowProps = {
 	title?: string
 	children: ReactNode
+	width?: number
+	height?: number
 }
 
-export function Window({ title = 'Window', children }: WindowProps) {
-	const nodeRef = useRef<HTMLDivElement>(null)
+const resizeHandles = {
+	top: true,
+	right: true,
+	bottom: true,
+	left: true,
+	topRight: true,
+	bottomRight: true,
+	bottomLeft: true,
+	topLeft: true,
+} as const
+
+export function Window({
+	title = 'Window',
+	children,
+	width = 320,
+	height = 200,
+}: WindowProps) {
+	const rndRef = useRef<Rnd>(null)
+	const isMaximizedRef = useRef(false)
+
+	/**
+	 * If the window is not maximized, maximize it. If the window is already maximized, restore it to its original size and position.
+	 */
+	function handleMaximizeToggle() {
+		const rnd = rndRef.current
+		if (!rnd) return
+
+		if (isMaximizedRef.current) {
+			rnd.updateSize({ width, height })
+			rnd.updatePosition({ x: 0, y: 0 })
+			isMaximizedRef.current = false
+		} else {
+			rnd.updateSize({ width: '100%', height: '100%' })
+			rnd.updatePosition({ x: 0, y: 0 })
+			isMaximizedRef.current = true
+		}
+	}
 
 	return (
-		<Draggable
-			nodeRef={nodeRef}
-			handle=".window-header"
+		<Rnd
+			ref={rndRef}
 			bounds="parent"
+			className="box-border"
+			default={{
+				x: 0,
+				y: 0,
+				width,
+				height,
+			}}
+			minWidth={160}
+			minHeight={120}
+			dragHandleClassName="window-titlebar"
 			cancel=".window-button"
+			enableResizing={resizeHandles}
 		>
-			<div ref={nodeRef} className="window w-fit">
+			<div className="window flex h-full min-h-0 w-full flex-col overflow-hidden">
 				{/* Header */}
-				<div className="window-header flex cursor-grab items-center justify-center gap-3 bg-[var(--window-header-background)] p-[3px] text-center text-black active:cursor-grabbing">
-					<span className="text-white">{title}</span>
+				<div className="window-titlebar flex shrink-0 cursor-grab items-center justify-between gap-3 bg-[var(--header-active)] p-[3px] text-black active:cursor-grabbing">
+					<span className="flex-1 truncate text-white">{title}</span>
 
-					<div className="flex items-center">
+					<div className="flex shrink-0 items-center">
 						{/* Minimize Button */}
 						<button
 							aria-label="Minimize window"
 							type="button"
-							className="window-button active:cursor-point flex h-6 w-6 cursor-pointer font-bold justify-center"
+							className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
 						>
 							-
 						</button>
@@ -36,7 +84,8 @@ export function Window({ title = 'Window', children }: WindowProps) {
 							<button
 								aria-label="Maximize window"
 								type="button"
-								className="window-button active:cursor-point flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
+								className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
+								onClick={handleMaximizeToggle}
 							>
 								<img src="/icons/window-maximize.svg" alt="Maximize window" />
 							</button>
@@ -45,7 +94,7 @@ export function Window({ title = 'Window', children }: WindowProps) {
 							<button
 								aria-label="Close window"
 								type="button"
-								className="window-button active:cursor-point flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
+								className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
 							>
 								X
 							</button>
@@ -54,8 +103,8 @@ export function Window({ title = 'Window', children }: WindowProps) {
 				</div>
 
 				{/* Content */}
-				<div className="p-3">{children}</div>
+				<div className="min-h-0 flex-1 overflow-auto p-3">{children}</div>
 			</div>
-		</Draggable>
+		</Rnd>
 	)
 }

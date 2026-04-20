@@ -12,7 +12,8 @@
 	--window-background: #c3c3c3;
 	--window-border-light: #f5f5f5;
 	--window-border-dark: #141414;
-	--window-header-background: #000082;
+	--header-active: #000082;
+	--header-inactive: #808080;
 
 	--desktop-background: #008080;
 	--text-background: #fff8dc;
