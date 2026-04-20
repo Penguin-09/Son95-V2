@@ -1,18 +1,12 @@
 import type { ReactNode } from 'react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Rnd } from 'react-rnd'
-import type { Position } from 'react-rnd'
 
 type WindowProps = {
 	title?: string
 	children: ReactNode
 	width?: number
 	height?: number
-}
-
-type WindowSize = {
-	width: number | string
-	height: number | string
 }
 
 const resizeHandles = {
@@ -33,41 +27,23 @@ export function Window({
 	height = 200,
 }: WindowProps) {
 	const rndRef = useRef<Rnd>(null)
-	const [isMaximized, setIsMaximized] = useState(false)
-	const [windowPosition, setWindowPosition] = useState<Position>({ x: 0, y: 0 })
-	const [windowSize, setWindowSize] = useState<WindowSize>({
-		width,
-		height,
-	})
+	const isMaximizedRef = useRef(false)
 
-	const [restoreRect, setRestoreRect] = useState<{
-		position: Position
-		size: WindowSize
-	} | null>(null)
-
+	/**
+	 * If the window is not maximized, maximize it. If the window is already maximized, restore it to its original size and position.
+	 */
 	function handleMaximizeToggle() {
 		const rnd = rndRef.current
 		if (!rnd) return
-		if (!isMaximized) {
-			// Save current size + position before maximizing.
-			setRestoreRect({
-				position: windowPosition,
-				size: windowSize,
-			})
+
+		if (isMaximizedRef.current) {
+			rnd.updateSize({ width, height })
 			rnd.updatePosition({ x: 0, y: 0 })
-			rnd.updateSize({ width: '100%', height: '100%' })
-			setWindowPosition({ x: 0, y: 0 })
-			setWindowSize({ width: '100%', height: '100%' })
-			setIsMaximized(true)
+			isMaximizedRef.current = false
 		} else {
-			// Restore prior rectangle.
-			if (restoreRect) {
-				rnd.updateSize(restoreRect.size)
-				rnd.updatePosition(restoreRect.position)
-				setWindowSize(restoreRect.size)
-				setWindowPosition(restoreRect.position)
-			}
-			setIsMaximized(false)
+			rnd.updateSize({ width: '100%', height: '100%' })
+			rnd.updatePosition({ x: 0, y: 0 })
+			isMaximizedRef.current = true
 		}
 	}
 
@@ -82,27 +58,11 @@ export function Window({
 				width,
 				height,
 			}}
-			position={windowPosition}
-			size={windowSize}
 			minWidth={160}
 			minHeight={120}
 			dragHandleClassName="window-titlebar"
 			cancel=".window-button"
 			enableResizing={resizeHandles}
-			onDragStop={(_event, data) => {
-				if (!isMaximized) {
-					setWindowPosition({ x: data.x, y: data.y })
-				}
-			}}
-			onResizeStop={(_event, _direction, ref, _delta, position) => {
-				if (!isMaximized) {
-					setWindowSize({
-						width: ref.offsetWidth,
-						height: ref.offsetHeight,
-					})
-					setWindowPosition(position)
-				}
-			}}
 		>
 			<div className="window flex h-full min-h-0 w-full flex-col overflow-hidden">
 				{/* Header */}
