@@ -2,11 +2,18 @@ import type { ReactNode } from 'react'
 import { useRef } from 'react'
 import { Rnd } from 'react-rnd'
 
-type WindowProps = {
+type AppProps = {
 	title?: string
 	children: ReactNode
 	width?: number
 	height?: number
+	onClose?: () => void
+	onMinimize?: () => void
+	zIndex?: number
+	onFocus?: () => void
+	x?: number
+	y?: number
+	minimized?: boolean
 }
 
 const resizeHandles = {
@@ -20,12 +27,19 @@ const resizeHandles = {
 	topLeft: true,
 } as const
 
-export function Window({
-	title = 'Window',
+export function App({
+	title = 'App',
 	children,
 	width = 320,
 	height = 200,
-}: WindowProps) {
+	onClose,
+	onMinimize,
+	zIndex,
+	onFocus,
+	x = 0,
+	y = 0,
+	minimized = false,
+}: AppProps) {
 	const rndRef = useRef<Rnd>(null)
 	const isMaximizedRef = useRef(false)
 
@@ -52,9 +66,10 @@ export function Window({
 			ref={rndRef}
 			bounds="parent"
 			className="box-border"
+			style={{ zIndex, display: minimized ? 'none' : undefined }}
 			default={{
-				x: 0,
-				y: 0,
+				x,
+				y,
 				width,
 				height,
 			}}
@@ -63,6 +78,8 @@ export function Window({
 			dragHandleClassName="window-titlebar"
 			cancel=".window-button"
 			enableResizing={resizeHandles}
+			onMouseDown={onFocus}
+			onDragStart={onFocus}
 		>
 			<div className="window flex h-full min-h-0 w-full flex-col overflow-hidden">
 				{/* Header */}
@@ -75,6 +92,7 @@ export function Window({
 							aria-label="Minimize window"
 							type="button"
 							className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
+							onClick={onMinimize}
 						>
 							-
 						</button>
@@ -87,7 +105,10 @@ export function Window({
 								className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
 								onClick={handleMaximizeToggle}
 							>
-								<img src="/icons/window-maximize.svg" alt="Maximize window" />
+								<img
+									src="/images/icons/window-maximize.svg"
+									alt="Maximize window"
+								/>
 							</button>
 
 							{/* Close Button */}
@@ -95,6 +116,7 @@ export function Window({
 								aria-label="Close window"
 								type="button"
 								className="window-button flex h-6 w-6 cursor-pointer items-center justify-center font-bold"
+								onClick={onClose}
 							>
 								X
 							</button>

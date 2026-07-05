@@ -48,3 +48,7 @@ body {
 	border-bottom: 3px solid var(--window-border-light);
 	border-right: 3px solid var(--window-border-light);
 }
+
+.window-button:hover {
+	cursor: pointer;
+}
