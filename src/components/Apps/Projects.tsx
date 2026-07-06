@@ -31,13 +31,10 @@ export function Projects() {
                     }
                 `}</style>
 
-				<img
-					src="/images/clouds.png"
-					alt="Clouds background"
-					className="absolute inset-0 h-full w-full object-cover"
-				/>
-
-				<div className="relative z-10 flex flex-col items-center p-2 px-5 text-center">
+				<div
+					className="relative z-10 flex min-h-full flex-col items-center bg-[length:150%_auto] bg-top bg-repeat-y p-2 px-5 text-center"
+					style={{ backgroundImage: 'url(/images/clouds.png)' }}
+				>
 					{selectedProject === null ? (
 						<div className="flex flex-col items-center gap-2">
 							<p className="text-bold text-2xl">
@@ -146,7 +143,7 @@ export function Projects() {
 							</h2>
 							<p>May 2026 - Now</p>
 							<p>C# / Unity</p>
-							<div className="flex items-center gap-2 p-3">
+							<div className="project-media-row flex items-center gap-2 p-3">
 								<p>
 									I'm currently developing an arcade fighting game in Unity,
 									inspired by titles like Tekken 8 and Sclash. It features 2D
@@ -178,13 +175,13 @@ export function Projects() {
 							</p>
 							<p>January 2025 - March 2025</p>
 							<p>C++ / Arduino</p>
-							<div className="flex items-center gap-2 p-3">
+							<div className="project-media-row flex items-center gap-2 p-3">
 								<p>
-									I am currently helping Assistive Innovations with the "Type It
-									Down" research project. This project aims to develop a device
-									that helps people with Parkinson's disease with performing
-									tasks like typing by stimulating muscles with vibrations. I
-									assisted with the programming of these devices.
+									I helped Assistive Innovations with the "Type It Down"
+									research project. This project aims to develop a device that
+									helps people with Parkinson's disease perform tasks like
+									typing by stimulating muscles with vibrations. I assisted with
+									the programming of these devices.
 								</p>
 
 								<img
@@ -226,7 +223,7 @@ export function Projects() {
 								</a>
 							</p>
 							<p>May 2025</p>
-							<div className="flex items-center gap-2 p-3">
+							<div className="project-media-row flex items-center gap-2 p-3">
 								<p>
 									I attended many programming camps throughout my childhood. In
 									may 2025, i returned to one of these camps, not as a

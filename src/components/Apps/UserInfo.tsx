@@ -6,8 +6,8 @@ export function UserInfo() {
 			<div>
 				<p>General info:</p>
 				<p className="ml-5">Son Bram van der Burg</p>
-				<p className="ml-5">Full-stack web developer</p>
-				<p className="mb-5 ml-5">17 years old</p>
+				<p className="ml-5">Web developer</p>
+				<p className="mb-5 ml-5">18 years old</p>
 
 				<p>Contact info:</p>
 				<p className="ml-5">son@vdburg.site</p>

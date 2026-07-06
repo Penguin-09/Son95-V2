@@ -21,7 +21,7 @@ export function AboutMe() {
 					After a two-year journey studying Software Development at Bit Academy,
 					followed by an eight-month internship, I graduated cum laude and can
 					now proudly call myself a web developer. During my education,
-					internship, and many personal projects, i learned a lot about
+					internship, and many personal projects, I learned a lot about
 					everything that goes into building applications. I'm excited to apply
 					those skills in a professional environment and continue growing as a
 					developer.
