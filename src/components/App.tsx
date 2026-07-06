@@ -75,6 +75,8 @@ export function App({
 			}}
 			minWidth={160}
 			minHeight={120}
+			maxWidth="100%"
+			maxHeight="100%"
 			dragHandleClassName="window-titlebar"
 			cancel=".window-button"
 			enableResizing={resizeHandles}

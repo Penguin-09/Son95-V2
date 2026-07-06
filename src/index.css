@@ -52,3 +52,7 @@ body {
 .window-button:hover {
 	cursor: pointer;
 }
+
+.beige-background {
+	background-color: var(--text-background);
+}
