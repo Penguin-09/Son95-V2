@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { App, AppShortcut, TaskbarApp } from '../components'
 import { Welcome } from '../components/Apps/Welcome'
+import { Picture } from '../components/Apps/Picture'
+import { AboutMe } from '../components/Apps/AboutMe'
 
 function Desktop() {
 	type OpenWindow = {
@@ -99,13 +101,57 @@ function Desktop() {
 	return (
 		<div className="flex h-screen w-screen flex-col overflow-hidden bg-[var(--desktop-background)]">
 			{/* Desktop */}
-			<main className="relative min-h-0 flex-1 overflow-hidden p-3">
+			<main className="relative flex min-h-0 flex-1 overflow-hidden">
 				{/* App Shortcuts */}
-				<AppShortcut
-					title="welcome.exe"
-					iconName="executable"
-					onOpen={() => openApp('Welcome', { width: 520, height: 280 })}
-				/>
+				<div className="flex w-30 flex-col">
+					<AppShortcut
+						title="welcome.exe"
+						iconName="executable"
+						onOpen={() => openApp('Welcome', { width: 520, height: 280 })}
+					/>
+
+					<AppShortcut
+						title="about-me.txt"
+						iconName="text"
+						onOpen={() => openApp('AboutMe', { width: 400, height: 300 })}
+					/>
+
+					<AppShortcut
+						title="picture-of-me.png"
+						iconName="picture"
+						onOpen={() => openApp('Picture', { width: 400, height: 300 })}
+					/>
+
+					<AppShortcut
+						title="projects.html"
+						iconName="browser"
+						onOpen={() => openApp('Projects', { width: 400, height: 300 })}
+					/>
+				</div>
+
+				<div className="flex w-30 flex-col">
+					<AppShortcut
+						title="cv.pdf"
+						iconName="document"
+						onOpen={() => openApp('CV', { width: 400, height: 300 })}
+					/>
+
+					<AppShortcut
+						title="User info"
+						iconName="operating-system"
+						onOpen={() => openApp('UserInfo', { width: 400, height: 300 })}
+					/>
+				</div>
+
+				<div className="flex w-30 flex-col">
+					<AppShortcut
+						title="Tech Stack Folder"
+						iconName="folder"
+						onOpen={() =>
+							openApp('TechStackFolder', { width: 400, height: 300 })
+						}
+					/>
+				</div>
 
 				{/* App windows */}
 				{windows.map((window) => (
@@ -125,6 +171,8 @@ function Desktop() {
 						{window.title === 'Welcome' && (
 							<Welcome onClose={() => closeApp(window.id)} />
 						)}
+						{window.title === 'Picture' && <Picture />}
+						{window.title === 'AboutMe' && <AboutMe />}
 					</App>
 				))}
 			</main>
