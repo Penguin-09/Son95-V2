@@ -9,7 +9,13 @@ export function Cv() {
 		<div className="flex h-full min-h-0 flex-col gap-2">
 			<Toolbar special="cv" />
 
-			{isLoading && !hasError && <p>Loading PDF...</p>}
+			{isLoading && !hasError && (
+				<p>
+					Loading PDF...
+					<br />
+					If this doesn't work, consider opening the PDF in a new tab.
+				</p>
+			)}
 			{hasError && <p>Could not load PDF preview.</p>}
 			<embed
 				src="/CV%20Son%20Bram%20van%20der%20Burg.pdf"
